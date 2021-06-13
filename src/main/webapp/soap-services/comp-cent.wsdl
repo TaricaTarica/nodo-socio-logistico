@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="EnviosSOAPService" targetNamespace="http://soap/">
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap/" elementFormDefault="unqualified" targetNamespace="http://soap/" version="1.0">
+<xs:element name="cambiarEstadoEnvio" type="tns:cambiarEstadoEnvio"/>
+<xs:element name="cambiarEstadoEnvioResponse" type="tns:cambiarEstadoEnvioResponse"/>
+<xs:element name="obtenerEnviosPendientesSocioLogistico" type="tns:obtenerEnviosPendientesSocioLogistico"/>
+<xs:element name="obtenerEnviosPendientesSocioLogisticoResponse" type="tns:obtenerEnviosPendientesSocioLogisticoResponse"/>
+<xs:complexType name="cambiarEstadoEnvio">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+<xs:element minOccurs="0" name="arg1" type="xs:string"/>
+<xs:element name="arg2" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="cambiarEstadoEnvioResponse">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="obtenerEnviosPendientesSocioLogistico">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="obtenerEnviosPendientesSocioLogisticoResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dtEnvio"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="dtEnvio">
+<xs:sequence>
+<xs:element minOccurs="0" name="estado" type="tns:estadoEnvio"/>
+<xs:element minOccurs="0" name="fechaCreacion" type="tns:localDate"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="lote" type="tns:lote"/>
+<xs:element minOccurs="0" name="socioLogistico" type="tns:socioLogistico"/>
+<xs:element minOccurs="0" name="vacunatorio" type="tns:vacunatorio"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="localDate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="lote">
+<xs:sequence>
+<xs:element name="cantVacunas" type="xs:int"/>
+<xs:element minOccurs="0" name="fechaCreado" type="tns:localDate"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="nombre" type="xs:string"/>
+<xs:element minOccurs="0" name="vacuna" type="tns:vacuna"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="vacuna">
+<xs:sequence>
+<xs:element minOccurs="0" name="codigo" type="xs:string"/>
+<xs:element name="dosis" type="xs:int"/>
+<xs:element minOccurs="0" name="enfermedad" type="tns:enfermedad"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="laboratorio" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lotes" nillable="true" type="tns:lote"/>
+<xs:element minOccurs="0" name="nombre" type="xs:string"/>
+<xs:element name="periodoInmune" type="xs:int"/>
+<xs:element minOccurs="0" name="proveedor" type="tns:proveedor"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="registros" nillable="true" type="tns:registroVacuna"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="enfermedad">
+<xs:sequence>
+<xs:element minOccurs="0" name="fechaCreacion" type="tns:localDate"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="nombre" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="planes" nillable="true" type="tns:planVacunacion"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="vacunas" nillable="true" type="tns:vacuna"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="planVacunacion">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="agendas" nillable="true" type="tns:agenda"/>
+<xs:element name="edadMaxima" type="xs:int"/>
+<xs:element name="edadMinima" type="xs:int"/>
+<xs:element minOccurs="0" name="enfermedad" type="tns:enfermedad"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="nombre" type="xs:string"/>
+<xs:element minOccurs="0" name="poblacionObjetivo" type="tns:poblacionObjetivo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="vacunas" nillable="true" type="tns:vacuna"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="agenda">
+<xs:sequence>
+<xs:element minOccurs="0" name="fin" type="tns:localDate"/>
+<xs:element name="horaFin" type="xs:int"/>
+<xs:element name="horaInicio" type="xs:int"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="inicio" type="tns:localDate"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="planes" nillable="true" type="tns:planVacunacion"/>
+<xs:element minOccurs="0" name="vacunatorio" type="tns:vacunatorio"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="vacunatorio">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="agendas" nillable="true" type="tns:agenda"/>
+<xs:element name="cantidadVacunadores" type="xs:int"/>
+<xs:element minOccurs="0" name="codigo" type="xs:string"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="nombre" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="puestos" nillable="true" type="tns:puesto"/>
+<xs:element minOccurs="0" name="ubicacion" type="tns:ubicacion"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="puesto">
+<xs:sequence>
+<xs:element minOccurs="0" name="codigo" type="xs:string"/>
+<xs:element name="id" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ubicacion">
+<xs:sequence>
+<xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="vacunatorio" type="tns:vacunatorio"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="proveedor">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="nombre" type="xs:string"/>
+<xs:element name="telefono" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="vacunas" nillable="true" type="tns:vacuna"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="registroVacuna">
+<xs:sequence>
+<xs:element minOccurs="0" name="ciudadano" type="tns:ciudadano"/>
+<xs:element minOccurs="0" name="fecha" type="tns:localDate"/>
+<xs:element minOccurs="0" name="vacuna" type="tns:vacuna"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ciudadano">
+<xs:complexContent>
+<xs:extension base="tns:usuario">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="usuario">
+<xs:sequence>
+<xs:element name="ci" type="xs:int"/>
+<xs:element minOccurs="0" name="contrasenia" type="xs:string"/>
+<xs:element minOccurs="0" name="email" type="xs:string"/>
+<xs:element minOccurs="0" name="primerApellido" type="xs:string"/>
+<xs:element minOccurs="0" name="primerNombre" type="xs:string"/>
+<xs:element minOccurs="0" name="segundoApellido" type="xs:string"/>
+<xs:element minOccurs="0" name="segundoNombre" type="xs:string"/>
+<xs:element name="telefono" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="socioLogistico">
+<xs:sequence>
+<xs:element minOccurs="0" name="codigo" type="xs:string"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element minOccurs="0" name="nombre" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="estadoEnvio">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Procesado"/>
+<xs:enumeration value="Entransito"/>
+<xs:enumeration value="Entregado"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="poblacionObjetivo">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Niños"/>
+<xs:enumeration value="Adolescentes"/>
+<xs:enumeration value="Adultos"/>
+<xs:enumeration value="Mayores"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="cambiarEstadoEnvioResponse">
+<wsdl:part element="tns:cambiarEstadoEnvioResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="cambiarEstadoEnvio">
+<wsdl:part element="tns:cambiarEstadoEnvio" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="obtenerEnviosPendientesSocioLogisticoResponse">
+<wsdl:part element="tns:obtenerEnviosPendientesSocioLogisticoResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="obtenerEnviosPendientesSocioLogistico">
+<wsdl:part element="tns:obtenerEnviosPendientesSocioLogistico" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:portType name="EnviosSOAP">
+<wsdl:operation name="cambiarEstadoEnvio">
+<wsdl:input message="tns:cambiarEstadoEnvio" name="cambiarEstadoEnvio"> </wsdl:input>
+<wsdl:output message="tns:cambiarEstadoEnvioResponse" name="cambiarEstadoEnvioResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="obtenerEnviosPendientesSocioLogistico">
+<wsdl:input message="tns:obtenerEnviosPendientesSocioLogistico" name="obtenerEnviosPendientesSocioLogistico"> </wsdl:input>
+<wsdl:output message="tns:obtenerEnviosPendientesSocioLogisticoResponse" name="obtenerEnviosPendientesSocioLogisticoResponse"> </wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="EnviosSOAPServiceSoapBinding" type="tns:EnviosSOAP">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="cambiarEstadoEnvio">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="cambiarEstadoEnvio">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="cambiarEstadoEnvioResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="obtenerEnviosPendientesSocioLogistico">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="obtenerEnviosPendientesSocioLogistico">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="obtenerEnviosPendientesSocioLogisticoResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="EnviosSOAPService">
+<wsdl:port binding="tns:EnviosSOAPServiceSoapBinding" name="EnviosSOAPPort">
+<soap:address location="http://periferico-vacunatorio.herokuapp.com/periferico-vacunatorio/VacunatorioServicio?Wsdl"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
